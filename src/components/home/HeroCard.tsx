@@ -1,7 +1,7 @@
 import { StatusBadge } from '../common'
 import type { Status } from '../common'
 import { cn } from '../../utils/cn'
-import { CHARACTER, STATUS_INFO, getStatus } from '../../constants/status'
+import { CHARACTER, STATUS_INFO, getStatus, normalizePercent } from '../../constants/status'
 
 type HeroCardProps = {
   showTitle: string
@@ -59,7 +59,7 @@ export default function HeroCard({
   recommendedExit,
   lastTrain,
 }: HeroCardProps) {
-  const value = Math.min(100, Math.max(0, Math.round(percent)))
+  const value = normalizePercent(percent)
   const status = getStatus(value)
   const info = STATUS_INFO[status]
   const theme = THEME[status]

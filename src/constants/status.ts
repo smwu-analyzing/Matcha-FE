@@ -5,10 +5,15 @@ import warn from '../assets/characters/warn.png'
 import danger from '../assets/characters/danger.png'
 
 
+export function normalizePercent(percent: number): number {
+  return Math.min(100, Math.max(0, Math.round(percent)))
+}
+
 export function getStatus(percent: number): Status {
-  if (percent >= 70) return 'safe'
-  if (percent >= 35) return 'caution'
-  if (percent > 0) return 'warn'
+  const value = normalizePercent(percent)
+  if (value >= 70) return 'safe'
+  if (value >= 35) return 'caution'
+  if (value > 0) return 'warn'
   return 'danger'
 }
 
