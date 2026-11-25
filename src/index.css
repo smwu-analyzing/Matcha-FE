@@ -5,6 +5,14 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar {
+    display: none; 
+  }
+
   body {
     @apply bg-pink-50 font-sans text-body-m text-gray-900 antialiased;
   }
