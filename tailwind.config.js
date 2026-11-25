@@ -10,6 +10,7 @@ export default {
         100: '#FFEAF7',
         200: '#FFDCF2',
         300: '#FFC2E8',
+        400: '#FFA3DA',
         500: '#FF6FBF',
       },
       green: {
@@ -55,14 +56,21 @@ export default {
         'body-m-bold': ['14px', { lineHeight: '1.45', letterSpacing: '-0.01em', fontWeight: '700' }],
         'caption-m': ['12px', { lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: '500' }],
         'caption-r': ['12px', { lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: '400' }],
+        // 홈 화면 큰 퍼센트 숫자 (56/60, 자간 -3%)
+        display: ['56px', { lineHeight: '60px', letterSpacing: '-0.03em', fontWeight: '700' }],
         micro: ['11px', { lineHeight: '1.35', letterSpacing: '-0.01em', fontWeight: '500' }],
       },
       borderRadius: {
         badge: '12px',
         chip: '16px',
+        tile: '16px',
         button: '18px',
+        cta: '20px',
         input: '22px',
         card: '32px',
+      },
+      backgroundImage: {
+        'hero-miss': 'linear-gradient(229.73deg, #FFC2E8 16.834%, #FFA3DA 140.23%)',
       },
       boxShadow: {
         card: '0 8px 12px rgba(255, 112, 191, 0.14)',

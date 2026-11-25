@@ -1,22 +1,29 @@
-import { cn } from '../../utils/cn';
+import { cn } from '../../utils/cn'
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'secondary' | 'ghost';
-};
+  variant?: 'primary' | 'secondary' | 'soft' | 'ghost'
+  size?: 'md' | 'lg'
+}
 
 const base =
-  'flex w-full items-center justify-center text-body-m-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40';
+  'flex w-full items-center justify-center text-body-m-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40'
+
+const sizes = {
+  md: 'h-12 rounded-button',
+  lg: 'h-14 rounded-cta text-title-s',
+} as const
 
 const variants = {
-  primary:
-    'h-12 rounded-button bg-green-600 text-gray-0 enabled:active:bg-green-700',
+  primary: 'bg-green-600 text-gray-0 enabled:active:bg-green-700',
   secondary:
-    'h-12 rounded-button border-[1.5px] border-green-600 bg-gray-0 text-green-600 enabled:active:bg-green-50',
+    'border-[1.5px] border-green-600 bg-gray-0 text-green-600 enabled:active:bg-green-50',
+  soft: 'text-gray-900 enabled:active:opacity-80',
   ghost: 'h-8 text-gray-600 enabled:active:text-gray-900',
-} as const;
+} as const
 
 export default function Button({
   variant = 'primary',
+  size = 'md',
   className,
   type = 'button',
   ...rest
@@ -24,8 +31,8 @@ export default function Button({
   return (
     <button
       type={type}
-      className={cn(base, variants[variant], className)}
+      className={cn(base, variant !== 'ghost' && sizes[size], variants[variant], className)}
       {...rest}
     />
-  );
+  )
 }
