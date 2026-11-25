@@ -1,0 +1,74 @@
+# CodeRabbit 설정
+# https://docs.coderabbit.ai/reference/yaml-template
+
+language: ko-KR
+early_access: false
+tone_instructions: "리뷰 코멘트는 한국어로, 간결하고 구체적으로 작성해줘."
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  sequence_diagrams: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+
+  # 생성 파일 / 자동 생성 코드는 리뷰 대상에서 제외
+  path_filters:
+    - "!**/*.g.dart"
+    - "!**/*.freezed.dart"
+    - "!**/*.gr.dart"
+    - "!**/*.mocks.dart"
+    - "!**/generated_plugin_registrant.dart"
+    - "!**/l10n/**"
+    - "!.dart_tool/**"
+    - "!build/**"
+    - "!pubspec.lock"
+    - "!android/**"
+    - "!ios/**"
+    - "!linux/**"
+    - "!macos/**"
+    - "!windows/**"
+    - "!web/**"
+
+  # 프로젝트 컨벤션에 맞춘 리뷰 가이드 (feature-first + Riverpod)
+  path_instructions:
+    - path: "lib/features/**/presentation/screens/**/*.dart"
+      instructions: >
+        Screen 위젯은 UI 조립 역할만 담당해야 합니다. 비즈니스 로직이나
+        데이터 가공 로직이 섞여 있다면 provider나 widgets로 분리할 것을
+        제안해주세요.
+
+    - path: "lib/features/**/presentation/providers/**/*.dart"
+      instructions: >
+        Riverpod Notifier/State 코드를 리뷰합니다. 상태 불변성(immutability)을
+        지키는지, 불필요한 rebuild를 유발하는 패턴이 없는지 확인해주세요.
+
+    - path: "lib/features/**/data/**/*.dart"
+      instructions: >
+        datasources/models/repositories 계층입니다. 외부 데이터(API, 로컬 저장소)
+        예외 처리가 누락되지 않았는지, model과 entity 변환 로직이 명확한지
+        확인해주세요.
+
+    - path: "lib/core/**/*.dart"
+      instructions: >
+        앱 전역에서 재사용되는 코드입니다. 특정 feature에 종속적인 로직이
+        섞여 있지 않은지, 하위 호환성을 깨는 변경은 아닌지 확인해주세요.
+
+    - path: "**/*.dart"
+      instructions: >
+        Dart/Flutter 공식 스타일 가이드와 flutter_lints 규칙을 기준으로
+        리뷰해주세요. 불필요한 print 사용, 하드코딩된 문자열/색상 값,
+        위젯 재빌드 비효율(const 누락 등)이 있다면 지적해주세요.
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  learnings:
+    scope: auto
