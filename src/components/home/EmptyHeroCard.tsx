@@ -1,13 +1,25 @@
-import { Button } from '../common'
-import heartGreen from '../../assets/icons/green_heart.svg'
-import { CHARACTER } from '../../constants/status'
+import { useNavigate } from "react-router-dom";
+import { Button } from "../common";
+import heartGreen from "../../assets/icons/green_heart.svg";
+import { CHARACTER } from "../../constants/status";
 
 type EmptyHeroCardProps = {
-  onSelectShow?: () => void
-}
+  // 부모에서 이동 동작을 따로 넘기면 그걸 쓰고, 없으면 공연 선택 화면으로 가요
+  onSelectShow?: () => void;
+};
 
 // 공연을 아직 고르지 않았을 때 보이는 카드
 export default function EmptyHeroCard({ onSelectShow }: EmptyHeroCardProps) {
+  const navigate = useNavigate();
+
+  const handleSelectShow = () => {
+    if (onSelectShow) {
+      onSelectShow();
+      return;
+    }
+    navigate("/show/select");
+  };
+
   return (
     <section className="flex flex-col gap-2 rounded-card bg-pink-200 p-5">
       <div className="relative min-h-[91px]">
@@ -29,9 +41,9 @@ export default function EmptyHeroCard({ onSelectShow }: EmptyHeroCardProps) {
       <p className="text-caption-r text-gray-700">
         공연 종료 시각을 예측해 나에게 맞는 퇴장 시각을 알려드려요.
       </p>
-      <Button size="lg" className="bg-green-500" onClick={onSelectShow}>
+      <Button size="lg" onClick={handleSelectShow}>
         공연 선택하고 귀가 계획 세우기
       </Button>
     </section>
-  )
+  );
 }

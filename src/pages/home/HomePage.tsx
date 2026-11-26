@@ -6,7 +6,10 @@ import {
   HomeHeader,
   UpcomingShows,
 } from "../../components/home";
+import { RESULT } from "../../constants/return";
 import { getStatus } from "../../constants/status";
+import { useReturnPercent } from "../../hooks/useReturnPercent";
+import { useReturnStore } from "../../stores/returnStore";
 import type { Show } from "../../types/show";
 import {
   getNotificationState,
@@ -14,12 +17,6 @@ import {
 } from "../../utils/notification";
 
 // TODO: API 연동 전 임시 데이터
-const SELECTED_SHOW = {
-  title: "A그룹 WORLD TOUR IN SEOUL",
-  recommendedExit: "21:50",
-  lastTrain: "22:20",
-};
-
 const UPCOMING_SHOWS: Show[] = [
   {
     id: 1,
@@ -42,12 +39,16 @@ const UPCOMING_SHOWS: Show[] = [
 ];
 
 type HomePageProps = {
-  // 선택한 공연의 막차 탑승 확률(0~100). 공연을 선택하지 않았으면 null
+  // 미리보기처럼 값을 직접 넘기면 그 값을 써요.
+  // 넘기지 않으면 귀가 설정 + 현재 시각으로 계산한 값을 써요 (설정 전에는 null)
   percent?: number | null;
 };
 
-export default function HomePage({ percent = null }: HomePageProps) {
+export default function HomePage({ percent: percentOverride }: HomePageProps) {
   const navigate = useNavigate();
+  const show = useReturnStore((s) => s.show);
+  const livePercent = useReturnPercent();
+  const percent = percentOverride !== undefined ? percentOverride : livePercent;
   const status = percent === null ? null : getStatus(percent);
 
   const handleBellClick = () => {
@@ -72,10 +73,10 @@ export default function HomePage({ percent = null }: HomePageProps) {
       ) : (
         <>
           <HeroCard
-            showTitle={SELECTED_SHOW.title}
+            showTitle={show.title}
             percent={percent}
-            recommendedExit={SELECTED_SHOW.recommendedExit}
-            lastTrain={SELECTED_SHOW.lastTrain}
+            recommendedExit={RESULT.exitTime}
+            lastTrain={RESULT.axis.lastTrain}
           />
           {/* 막차를 놓친 경우(0%)에는 경로 보기 버튼이 없어요 */}
           {status !== "danger" && (
@@ -89,6 +90,7 @@ export default function HomePage({ percent = null }: HomePageProps) {
                     ? "bg-pink-200"
                     : undefined
               }
+              onClick={() => navigate("/return/route")}
             >
               지금 퇴장하고 귀가 경로 보기
             </Button>
