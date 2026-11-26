@@ -1,8 +1,8 @@
 import type { Status } from '../components/common'
-import safe from '../assets/characters/safe.png'
-import caution from '../assets/characters/caution.png'
-import warn from '../assets/characters/warn.png'
-import danger from '../assets/characters/danger.png'
+import safe from '../assets/characters/safe.webp'
+import caution from '../assets/characters/caution.webp'
+import warn from '../assets/characters/warn.webp'
+import danger from '../assets/characters/danger.webp'
 
 
 export function normalizePercent(percent: number): number {

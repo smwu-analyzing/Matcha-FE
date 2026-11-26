@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import character from "../../assets/characters/warn.png";
+import character from "../../assets/characters/warn.webp";
 import { Button, Toast } from "../../components/common";
 import { NotificationLayout } from "../../components/notification";
 import { useToast } from "../../hooks/useToast";
