@@ -16,8 +16,8 @@ export const SHOW_YEAR = 2026;
 export const SHOW_DATES = [
   { id: "12-05", day: "토", label: "12/05" },
   { id: "12-06", day: "일", label: "12/06" },
-  { id: "12-13", day: "토", label: "12/13" },
-  { id: "12-14", day: "일", label: "12/14" },
+  { id: "12-13", day: "일", label: "12/13" },
+  { id: "12-14", day: "월", label: "12/14" },
 ];
 
 export const DEPARTURE = "KSPO DOME";
