@@ -7,3 +7,6 @@ export { default as Toggle } from "./Toggle";
 export { default as Radio } from "./Radio";
 export { default as ListCard } from "./ListCard";
 export { default as Toast } from "./Toast";
+export { default as Icon } from "./Icon";
+export { default as TextField } from "./TextField";
+export { default as OptionCard } from "./OptionCard";
