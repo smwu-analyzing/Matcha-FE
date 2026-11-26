@@ -7,6 +7,7 @@ import { Button } from "../../components/common";
 import { NotificationLayout, TimingRow } from "../../components/notification";
 import type { Timing } from "../../components/notification";
 import {
+  loadAlertSettings,
   markNotificationPromptSeen,
   requestNotificationPermission,
   saveAlertSettings,
@@ -28,15 +29,23 @@ const BENEFITS = [
 // 06-A 알림 권한 요청
 export default function NotificationPermissionPage() {
   const navigate = useNavigate();
-  const [timing, setTiming] = useState<Timing>(10);
+  const [timing, setTiming] = useState<Timing>(
+    () => loadAlertSettings().timing,
+  );
 
   useEffect(() => {
     markNotificationPromptSeen();
   }, []);
 
+  const handleTimingChange = (next: Timing) => {
+    setTiming(next);
+    saveAlertSettings({ timing: next });
+  };
+
   const handleAllow = async () => {
     const result = await requestNotificationPermission();
     if (result === "granted") {
+      // 알림 시점은 그대로 두고 두 알림만 켜요
       saveAlertSettings({ exitAlert: true, riskAlert: true });
       navigate("/notification/settings");
     } else {
@@ -91,7 +100,7 @@ export default function NotificationPermissionPage() {
       </ul>
 
       <div className="rounded-3xl bg-gray-0">
-        <TimingRow value={timing} onChange={setTiming} />
+        <TimingRow value={timing} onChange={handleTimingChange} />
       </div>
     </NotificationLayout>
   );

@@ -3,13 +3,12 @@ import { useNavigate } from "react-router-dom";
 import character from "../../assets/characters/danger.png";
 import { Button, Toggle } from "../../components/common";
 import { NotificationLayout, TimingRow } from "../../components/notification";
-import type { Timing } from "../../components/notification";
 import { loadAlertSettings, saveAlertSettings } from "../../utils/notification";
 import type { AlertSettings } from "../../utils/notification";
 
+// 06-C 알림 설정 완료
 export default function NotificationSettingsPage() {
   const navigate = useNavigate();
-  const [timing, setTiming] = useState<Timing>(10);
   const [alerts, setAlerts] = useState(loadAlertSettings);
 
   const updateAlerts = (next: Partial<AlertSettings>) => {
@@ -71,7 +70,10 @@ export default function NotificationSettingsPage() {
             aria-label="막차 위험 알림"
           />
         </div>
-        <TimingRow value={timing} onChange={setTiming} />
+        <TimingRow
+          value={alerts.timing}
+          onChange={(timing) => updateAlerts({ timing })}
+        />
       </div>
     </NotificationLayout>
   );
