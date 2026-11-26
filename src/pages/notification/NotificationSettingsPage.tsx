@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import character from "../../assets/characters/danger.png";
+import character from "../../assets/characters/danger.webp";
 import { Button, Toggle } from "../../components/common";
 import { NotificationLayout, TimingRow } from "../../components/notification";
 import { loadAlertSettings, saveAlertSettings } from "../../utils/notification";

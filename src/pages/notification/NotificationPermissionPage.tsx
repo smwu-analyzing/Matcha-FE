@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bellIcon from "../../assets/icons/pink_Bell.svg";
 import alertIcon from "../../assets/icons/alert.svg";
-import character from "../../assets/characters/safe.png";
+import character from "../../assets/characters/safe.webp";
 import { Button } from "../../components/common";
 import { NotificationLayout, TimingRow } from "../../components/notification";
 import type { Timing } from "../../components/notification";
