@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, SearchInput } from "../../components/common";
 import {
@@ -11,7 +10,6 @@ import { getStatus } from "../../constants/status";
 import type { Show } from "../../types/show";
 import {
   getNotificationState,
-  hasSeenNotificationPrompt,
   isNotificationOn,
 } from "../../utils/notification";
 
@@ -51,13 +49,6 @@ type HomePageProps = {
 export default function HomePage({ percent = null }: HomePageProps) {
   const navigate = useNavigate();
   const status = percent === null ? null : getStatus(percent);
-
-  // 처음 방문 + 아직 권한을 안 정했으면 06-A로
-  useEffect(() => {
-    if (getNotificationState() === "default" && !hasSeenNotificationPrompt()) {
-      navigate("/notification/permission", { replace: true });
-    }
-  }, [navigate]);
 
   const handleBellClick = () => {
     if (getNotificationState() === "default") {
