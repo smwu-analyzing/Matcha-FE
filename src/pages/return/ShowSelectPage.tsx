@@ -36,6 +36,20 @@ export default function ShowSelectPage() {
     visibleSessions[0] ??
     null;
 
+  // 그룹을 바꿨을 때 지금 날짜에 그 그룹 공연이 없으면, 공연이 있는 첫 날짜로 옮겨요
+  const handleGroupChange = (nextGroup: string) => {
+    setGroup(nextGroup);
+    const hasShowOnDate = SHOW_SESSIONS.some(
+      (s) => s.group === nextGroup && s.dateId === date.id,
+    );
+    if (hasShowOnDate) return;
+    const firstDate = SHOW_DATES.find((d) =>
+      SHOW_SESSIONS.some((s) => s.group === nextGroup && s.dateId === d.id),
+    );
+    // 공연이 하나도 없는 그룹이면 날짜는 그대로 두고 빈 상태를 보여줘요
+    if (firstDate) setDateId(firstDate.id);
+  };
+
   const handleNext = () => {
     if (!selectedSession) return;
     setShow({
@@ -63,12 +77,18 @@ export default function ShowSelectPage() {
         large
         placeholder="아티스트·공연 검색"
         value={query}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setQuery(e.target.value)
+        }
       />
 
       <div className="flex flex-wrap gap-2">
         {GROUPS.map((g) => (
-          <Chip key={g} selected={group === g} onClick={() => setGroup(g)}>
+          <Chip
+            key={g}
+            selected={group === g}
+            onClick={() => handleGroupChange(g)}
+          >
             {g}
           </Chip>
         ))}
