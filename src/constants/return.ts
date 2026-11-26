@@ -2,12 +2,16 @@ import type {
   RiskStatus,
   RouteSegment,
   RouteStep,
+  ShowSession,
   Train,
 } from "../types/return";
 
 // TODO: API 연동 전 임시 데이터
 
 export const GROUPS = ["A그룹", "B그룹", "C그룹", "D그룹"];
+
+// 공연 날짜(MM/DD)에 붙일 연도
+export const SHOW_YEAR = 2026;
 
 export const SHOW_DATES = [
   { id: "12-05", day: "토", label: "12/05" },
@@ -18,9 +22,11 @@ export const SHOW_DATES = [
 
 export const DEPARTURE = "KSPO DOME";
 
-export const SHOW_SESSIONS = [
+export const SHOW_SESSIONS: ShowSession[] = [
   {
     id: 1,
+    group: "A그룹",
+    dateId: "12-05",
     title: "A그룹 WORLD TOUR IN SEOUL",
     round: 1,
     time: "14:00",
@@ -28,9 +34,47 @@ export const SHOW_SESSIONS = [
   },
   {
     id: 2,
+    group: "A그룹",
+    dateId: "12-05",
     title: "A그룹 WORLD TOUR IN SEOUL",
     round: 2,
     time: "18:00",
+    venue: DEPARTURE,
+  },
+  {
+    id: 3,
+    group: "A그룹",
+    dateId: "12-06",
+    title: "A그룹 WORLD TOUR IN SEOUL",
+    round: 1,
+    time: "14:00",
+    venue: DEPARTURE,
+  },
+  {
+    id: 4,
+    group: "A그룹",
+    dateId: "12-06",
+    title: "A그룹 WORLD TOUR IN SEOUL",
+    round: 2,
+    time: "18:00",
+    venue: DEPARTURE,
+  },
+  {
+    id: 5,
+    group: "B그룹",
+    dateId: "12-13",
+    title: "B그룹 단독 콘서트",
+    round: 1,
+    time: "17:00",
+    venue: DEPARTURE,
+  },
+  {
+    id: 6,
+    group: "C그룹",
+    dateId: "12-14",
+    title: "C그룹 팬콘서트",
+    round: 1,
+    time: "15:00",
     venue: DEPARTURE,
   },
 ];

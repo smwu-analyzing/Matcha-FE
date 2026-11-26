@@ -13,10 +13,8 @@ export default function ResultPage() {
   const navigate = useNavigate();
   const { destination, confirmPlan } = useReturnStore();
   const { risk } = RESULT;
-  const alertTime = subtractMinutes(
-    RESULT.exitTime,
-    loadAlertSettings().timing,
-  );
+  const { exitAlert, timing } = loadAlertSettings();
+  const alertTime = subtractMinutes(RESULT.exitTime, timing);
 
   // 알림 설정을 시작하면 귀가 계획이 확정돼서 홈이 실시간 상태로 바뀌어요
   const handleSetAlert = () => {
@@ -51,7 +49,9 @@ export default function ResultPage() {
         <p className="text-caption-m text-green-100">권장 퇴장 시각</p>
         <p className="text-display-xl text-gray-0">{RESULT.exitTime}</p>
         <p className="text-caption-r text-green-100">
-          공연 중 {alertTime}에 알림을 보내드려요
+          {exitAlert
+            ? `공연 중 ${alertTime}에 알림을 보내드려요`
+            : "퇴장 알림이 꺼져 있어요"}
         </p>
       </section>
 

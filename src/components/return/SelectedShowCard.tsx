@@ -1,5 +1,5 @@
 import heartIcon from "../../assets/icons/pink_heart.svg";
-import type { ReturnShow } from "../../types/return.ts";
+import type { ReturnShow } from "../../types/return";
 
 type SelectedShowCardProps = {
   show: ReturnShow;

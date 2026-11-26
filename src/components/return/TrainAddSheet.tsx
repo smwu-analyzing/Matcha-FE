@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import closeIcon from "../../assets/icons/Close.svg";
 import swapIcon from "../../assets/icons/Swap.svg";
 import { Button, Chip, Icon, TextField } from "../common";
 import { TRAIN_TYPES } from "../../constants/return";
-import type { Train } from "../../types/return";
+import type { Train } from "../../types/return.ts";
 
 type TrainAddSheetProps = {
   open: boolean;
   onClose: () => void;
   onSubmit: (train: Train) => void;
 };
+
+const FOCUSABLE =
+  'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [href], [tabindex]:not([tabindex="-1"])';
 
 // 03-C 예매 내역 직접 추가 (바텀시트)
 export default function TrainAddSheet({
@@ -25,13 +28,54 @@ export default function TrainAddSheet({
   const [time, setTime] = useState("");
   const [number, setNumber] = useState("");
 
-  // ESC로 닫기
+  const dialogRef = useRef<HTMLFormElement>(null);
+  // 부모가 onClose를 매번 새로 만들어도 포커스 효과가 다시 돌지 않게 ref로 들고 있어요
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
+
+  // 열릴 때 포커스를 시트 안으로 옮기고, 열린 동안 Tab을 시트 안에서만 돌리고,
+  // 닫힐 때 열기 전에 포커스가 있던 요소로 돌려줘요. ESC로도 닫혀요.
   useEffect(() => {
     if (!open) return;
-    const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const dialog = dialogRef.current;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+
+    const getFocusable = () =>
+      dialog ? Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE)) : [];
+
+    (dialog?.querySelector("input") ?? getFocusable()[0])?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onCloseRef.current();
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      const outside = !dialog?.contains(active);
+
+      if (e.shiftKey && (active === first || outside)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (active === last || outside)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open, onClose]);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [open]);
 
   if (!open) return null;
 
@@ -75,6 +119,7 @@ export default function TrainAddSheet({
         aria-hidden
       />
       <form
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label="예매 내역 직접 추가"
